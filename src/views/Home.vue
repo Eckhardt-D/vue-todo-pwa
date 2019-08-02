@@ -1,18 +1,57 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <main class="home">
+    <section class="todo-container">
+      <draggable
+        :list="mockArray"
+        :disabled="!enabled"
+        class="list-group"
+        ghost-class="ghost"
+        handle=".drag-handle"
+        @start="dragging = true"
+        @end="dragging = false"
+      >
+        <transition-group>
+          <the-todo
+            v-for="todo in mockArray"
+            :title="todo.title"
+            :key="todo.id"
+          />
+        </transition-group>
+      </draggable>
+    </section>
+  </main>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import TheTodo from "@/components/TheTodo";
+import draggable from "vuedraggable";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
-    HelloWorld
-  }
-}
+    TheTodo,
+    draggable
+  },
+  data: () => ({
+    mockArray: [
+      { id: 1, title: "hello1", status: "incomplete" },
+      { id: 2, title: "hello2", status: "incomplete" },
+      { id: 3, title: "hello3", status: "incomplete" }
+    ],
+    enabled: true,
+    dragging: false
+  })
+};
 </script>
+
+<style>
+.todo-container {
+  min-height: 84px;
+  box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+</style>
+

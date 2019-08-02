@@ -2,51 +2,79 @@
   <main class="home">
     <section class="todo-container">
       <draggable
-        :list="mockArray"
+        :list="localTodos"
         :disabled="!enabled"
         class="list-group"
         ghost-class="ghost"
         handle=".drag-handle"
         @start="dragging = true"
-        @end="dragging = false"
+        @end="updateDatabase"
       >
         <transition-group>
           <the-todo
-            v-for="todo in mockArray"
-            :title="todo.title"
+            v-for="todo in localTodos"
+            v-if="mode == 'today' && isTodayAndIncomplete(todo)"
+            :todo="todo"
+            :key="todo.id"
+          />
+          <the-todo
+            v-for="todo in localTodos"
+            v-if="mode == 'previous' && !isTodayAndIncomplete(todo)"
+            :todo="todo"
             :key="todo.id"
           />
         </transition-group>
       </draggable>
     </section>
+    <the-add-modal :open="modal" />
   </main>
 </template>
 
 <script>
 import TheTodo from "@/components/TheTodo";
+import TheAddModal from "@/components/TheAddModal";
 import draggable from "vuedraggable";
 
 export default {
   name: "home",
   components: {
     TheTodo,
-    draggable
+    draggable,
+    TheAddModal
   },
   data: () => ({
-    mockArray: [
-      { id: 1, title: "hello1", status: "incomplete" },
-      { id: 2, title: "hello2", status: "incomplete" },
-      { id: 3, title: "hello3", status: "incomplete" },
-      { id: 4, title: "hello1", status: "incomplete" },
-      { id: 5, title: "hello2", status: "incomplete" },
-      { id: 6, title: "hello3", status: "incomplete" },
-      { id: 7, title: "hello1", status: "incomplete" },
-      { id: 8, title: "hello2", status: "incomplete" },
-      { id: 9, title: "hello3", status: "incomplete" }
-    ],
     enabled: true,
     dragging: false
-  })
+  }),
+  computed: {
+    modal() {
+      return this.$store.state.creating;
+    },
+    localTodos() {
+      return this.$store.state.todos;
+    },
+    mode() {
+      return this.$store.state.mode;
+    }
+  },
+  methods: {
+    updateDatabase() {
+      const currentOrder = this.localTodos;
+      this.$store.commit("SYNC", currentOrder);
+    },
+    isTodayAndIncomplete(todo) {
+      const todayArr = new Date().toLocaleDateString("en-US").split("/");
+      const tomArr = todo.created.toLocaleDateString("en-US").split("/");
+
+      const sameYear = todayArr[2] == tomArr[2];
+      const sameMonth = todayArr[0] == tomArr[0];
+      const sameDay = todayArr[1] == tomArr[1];
+
+      if (sameYear && sameMonth && sameDay) {
+        return true;
+      }
+    }
+  }
 };
 </script>
 

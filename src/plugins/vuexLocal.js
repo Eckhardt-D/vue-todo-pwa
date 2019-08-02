@@ -1,8 +1,17 @@
 import localForage from "localforage";
 import randomID from "uuid/v4";
 
-const createTodo = async ({ title, status = "incomplete" }, store) => {
-  const todo = { id: randomID(), title, status };
+const createTodo = async ({ title, complete = false }, store) => {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  const todo = {
+    created: today,
+    id: randomID(),
+    title,
+    complete
+  };
   const todos = [...store.state.todos, todo];
   store.commit("UPDATE_TODOS", todos);
   await localForage.setItem("APP_DATA", todos);
@@ -13,9 +22,10 @@ const updateTodo = async (payload, store) => {
   todos.forEach(todo => {
     if (todo.id == payload.id) {
       todo.title = payload.title;
-      todo.status = payload.status;
+      todo.complete = payload.complete;
     }
   });
+
   store.commit("UPDATE_TODOS", todos);
   await localForage.setItem("APP_DATA", todos);
 };
@@ -25,6 +35,10 @@ const deleteTodo = async (payload, store) => {
   let updated = todos.filter(t => t.id !== payload.id);
   store.commit("UPDATE_TODOS", updated);
   await localForage.setItem("APP_DATA", updated);
+};
+
+const syncTodos = async payload => {
+  await localForage.setItem("APP_DATA", payload);
 };
 
 const subscriber = store =>
@@ -39,6 +53,8 @@ const subscriber = store =>
       case "DELETE":
         deleteTodo(payload, store).catch(e => console.error(e));
         break;
+      case "SYNC":
+        syncTodos(payload).catch(e => console.error(e));
       default:
         break;
     }

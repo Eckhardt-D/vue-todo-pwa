@@ -18,6 +18,9 @@ export default {
     TheHeader,
     TheDateDisplay,
     TheBottomNav
+  },
+  beforeCreate() {
+    this.$store.dispatch("getTodos").catch(e => console.error(e));
   }
 };
 </script>

@@ -1,18 +1,13 @@
 <template>
   <section class="footer-nav">
-    <div class="completed-items-container">
-      <v-touch :flex="false">
-        <v-icon class="bottom-icon" icon="check"></v-icon>
-        <p>Completed</p>
-      </v-touch>
-    </div>
-    <div class="new-item-container">
+    <div class="new-item-container" @click="openModal">
       <v-icon icon="plus"></v-icon>
     </div>
-    <div class="previous-items-container">
+    <div @click="changeMode()" class="previous-items-container">
       <v-touch :flex="false">
         <v-icon class="bottom-icon" icon="clock"></v-icon>
-        <p>Previous</p>
+        <p v-if="mode == 'today'">Previous</p>
+        <p v-else>Today</p>
       </v-touch>
     </div>
   </section>
@@ -24,6 +19,23 @@ export default {
   name: "the-bottom-nav",
   components: {
     VTouch
+  },
+  computed: {
+    mode() {
+      return this.$store.state.mode;
+    }
+  },
+  methods: {
+    openModal() {
+      this.$store.commit("CHANGE_CREATING");
+    },
+    changeMode() {
+      if (this.mode == "previous") {
+        this.$store.commit("CHANGE_MODE", "today");
+      } else {
+        this.$store.commit("CHANGE_MODE", "previous");
+      }
+    }
   }
 };
 </script>
@@ -31,7 +43,7 @@ export default {
 <style>
 .footer-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0px 10%;
   border-top: 1px solid black;
   align-items: center;

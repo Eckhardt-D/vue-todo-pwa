@@ -1,11 +1,6 @@
 <template>
   <section class="todo-tab">
-    <v-touch
-      v-if="mode == 'today'"
-      :flex="true"
-      class="drag-handle"
-      @triggered="startDrag"
-    >
+    <v-touch v-if="mode == 'today'" :flex="true" class="drag-handle">
       <v-icon class="todo-sort" icon="bars" />
     </v-touch>
     <p
@@ -62,12 +57,6 @@ export default {
     }
   },
   methods: {
-    openMenu() {
-      console.log("clicked");
-    },
-    startDrag() {
-      console.log("dragging");
-    },
     completeTodo() {
       const updated = { ...this.todo, complete: true };
       this.$store.commit("UPDATE", updated);

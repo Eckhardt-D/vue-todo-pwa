@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <the-header class="fixed-header" />
-    <the-date-display class="fixed-date" />
+    <the-header v-if="!hideNavs" class="fixed-header" />
+    <the-date-display v-if="!hideNavs" class="fixed-date" />
     <router-view class="space-top" />
-    <the-bottom-nav class="fixed-bottom"></the-bottom-nav>
+    <the-bottom-nav v-if="!hideNavs" class="fixed-bottom"></the-bottom-nav>
   </div>
 </template>
 
@@ -19,8 +19,26 @@ export default {
     TheDateDisplay,
     TheBottomNav
   },
+  computed: {
+    hideNavs() {
+      return this.$store.state.hideNavs;
+    }
+  },
   beforeCreate() {
     this.$store.dispatch("getTodos").catch(e => console.error(e));
+
+    if (
+      !navigator.userAgent.match(/Android/i) &&
+      !navigator.userAgent.match(/webOS/i) &&
+      !navigator.userAgent.match(/iPhone/i) &&
+      !navigator.userAgent.match(/iPad/i) &&
+      !navigator.userAgent.match(/iPod/i) &&
+      !navigator.userAgent.match(/BlackBerry/i) &&
+      !navigator.userAgent.match(/Windows Phone/i)
+    ) {
+      this.$store.commit("HIDE_NAVS");
+      this.$router.push("/device");
+    }
   }
 };
 </script>

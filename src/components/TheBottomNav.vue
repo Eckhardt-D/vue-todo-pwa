@@ -35,6 +35,7 @@ export default {
       } else {
         this.$store.commit("CHANGE_MODE", "previous");
       }
+      this.$router.push("/");
     }
   }
 };

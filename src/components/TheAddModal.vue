@@ -27,6 +27,7 @@ export default {
       } else {
         this.$store.commit("CREATE", { title: this.todoTitle });
         this.closeModal();
+        this.$router.push("/");
       }
     },
     closeModal() {

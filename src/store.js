@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     todos: [],
     creating: false,
-    mode: "today"
+    mode: "today",
+    hideNavs: false
   },
   mutations: {
     UPDATE_TODOS: (state, todos) => {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     CHANGE_MODE: (state, payload) => {
       state.mode = payload;
+    },
+    HIDE_NAVS: state => {
+      state.hideNavs = !state.hideNavs;
     }
   },
   actions: {

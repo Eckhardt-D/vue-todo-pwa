@@ -18,7 +18,6 @@ header {
   width: 100%;
   height: 52px;
   background-color: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .branding {
@@ -33,5 +32,6 @@ header {
 
 .branding-text {
   font-style: italic;
+  margin-left: 5px;
 }
 </style>

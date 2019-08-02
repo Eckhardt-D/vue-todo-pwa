@@ -1,12 +1,12 @@
 <template>
   <section class="todo-tab">
-    <v-touch class="drag-handle" @triggered="startDrag">
+    <v-touch :flex="true" class="drag-handle" @triggered="startDrag">
       <v-icon class="todo-sort" icon="bars" />
     </v-touch>
     <p class="todo-text">
       {{ title }}
     </p>
-    <v-touch @triggered="openMenu">
+    <v-touch :flex="true" @triggered="openMenu">
       <v-icon class="todo-more" icon="ellipsis-h"></v-icon>
     </v-touch>
   </section>
@@ -33,7 +33,7 @@ export default {
 
 <style>
 .todo-tab {
-  height: 87px;
+  height: calc((100vh - (112px + 51px)) / 6);
   display: flex;
   justify-content: space-between;
   align-items: center;

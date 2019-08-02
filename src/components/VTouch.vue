@@ -1,5 +1,6 @@
 <template>
   <button
+    :style="{ 'flex-direction': flex ? 'row' : 'column' }"
     @focus="handleClick"
     @touchstart="handleClick"
     @touchend="removeBg"
@@ -13,6 +14,7 @@
 <script>
 export default {
   name: "v-touch",
+  props: ["flex"],
   methods: {
     handleClick() {
       this.$el.style.background = "rgba(0,0,0,0.2)";
@@ -27,15 +29,15 @@ export default {
 
 <style>
 .touch-minimizer {
+  display: flex;
+  text-align: center;
   background: none;
   border: none;
   outline: none;
-  display: flex;
   justify-content: center;
   align-items: center;
-  height: 32px;
-  width: 32px;
-  /* background-color: rgba(0, 0, 0, 0.2); */
+  height: 50px;
+  width: 50px;
   border-radius: 100%;
 }
 </style>

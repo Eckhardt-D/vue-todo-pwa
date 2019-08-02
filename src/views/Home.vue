@@ -36,7 +36,13 @@ export default {
     mockArray: [
       { id: 1, title: "hello1", status: "incomplete" },
       { id: 2, title: "hello2", status: "incomplete" },
-      { id: 3, title: "hello3", status: "incomplete" }
+      { id: 3, title: "hello3", status: "incomplete" },
+      { id: 4, title: "hello1", status: "incomplete" },
+      { id: 5, title: "hello2", status: "incomplete" },
+      { id: 6, title: "hello3", status: "incomplete" },
+      { id: 7, title: "hello1", status: "incomplete" },
+      { id: 8, title: "hello2", status: "incomplete" },
+      { id: 9, title: "hello3", status: "incomplete" }
     ],
     enabled: true,
     dragging: false
@@ -46,8 +52,7 @@ export default {
 
 <style>
 .todo-container {
-  min-height: 84px;
-  box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
+  min-height: calc((100vh - (112px + 51px)) / 5);
 }
 .ghost {
   opacity: 0.5;

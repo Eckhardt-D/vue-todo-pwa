@@ -49,6 +49,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
+  min-width: 100%;
 }
 #app {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
@@ -56,7 +57,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .space-top {
-  margin-top: 112px;
+  margin-top: calc(112px + 1em);
 }
 .fixed-header,
 .fixed-date {
@@ -72,6 +73,7 @@ body {
   bottom: 0;
   right: 0;
   left: 0;
+  height: 50px;
 }
 
 .fixed-date {

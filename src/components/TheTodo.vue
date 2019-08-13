@@ -84,11 +84,21 @@ export default {
 .todo-tab {
   position: relative;
   height: calc((100vh - (112px + 51px)) / 6);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
-  padding: 0 30px;
+  padding: 0 10px;
+  margin: 1em;
+  border-radius: 5px;
+  box-shadow: 1.5px 1.5px 5px #a2bdc354;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
 }
 
 .popup {
@@ -104,11 +114,13 @@ export default {
 }
 
 .todo-sort {
-  font-size: 18px;
+  font-size: 16px;
+  color: #394c50;
 }
 
 .todo-more {
-  font-size: 20px;
+  font-size: 18px;
+  color: #394c50;
 }
 
 .edit-input {

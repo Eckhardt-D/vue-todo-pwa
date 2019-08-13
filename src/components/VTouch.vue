@@ -36,8 +36,9 @@ export default {
   outline: none;
   justify-content: center;
   align-items: center;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   border-radius: 100%;
+  overflow: visible;
 }
 </style>

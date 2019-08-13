@@ -82,5 +82,6 @@ export default {
   font-size: 0.6em;
   margin: 0;
   margin-top: 3px;
+  overflow: visible;
 }
 </style>

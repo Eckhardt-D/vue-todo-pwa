@@ -50,6 +50,8 @@ body {
   margin: 0;
   padding: 0;
   min-width: 100%;
+  position: relative;
+  min-height: calc(100vh - 112px - 50px);
 }
 #app {
   font-family: "Roboto", Helvetica, Arial, sans-serif;

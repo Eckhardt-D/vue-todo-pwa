@@ -1,5 +1,5 @@
 <template>
-  <section v-if="open" class="create-overlay">
+  <the-overlay v-if="open">
     <div class="create-modal">
       <p class="modal-title">Create a todo</p>
       <input v-model="todoTitle" placeholder="Title" type="text" />
@@ -9,13 +9,18 @@
         <button @click="closeModal">Cancel</button>
       </div>
     </div>
-  </section>
+  </the-overlay>
 </template>
 
 <script>
+import TheOverlay from "@/components/TheOverlay";
+
 export default {
   name: "the-add-modal",
   props: ["open"],
+  components: {
+    TheOverlay
+  },
   data: () => ({
     todoTitle: "",
     isError: false
@@ -54,19 +59,6 @@ export default {
 </script>
 
 <style>
-.create-overlay {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-  /* pointer-events: none; */
-}
-
 .create-modal {
   background: white;
   margin: 0 auto;

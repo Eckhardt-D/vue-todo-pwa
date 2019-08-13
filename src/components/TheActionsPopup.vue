@@ -14,13 +14,15 @@
 <script>
 export default {
   name: "the-action-popup",
-  props: ["complete"]
+  props: ["complete", "state"],
+  mounted() {
+    this.$el.classList.add("action-box--move");
+  }
 };
 </script>
 
 <style>
 .action-box {
-  width: 122px;
   height: 72px;
   display: flex;
   flex-direction: column;
@@ -28,6 +30,12 @@ export default {
   border: 0.5px solid rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+  position: fixed;
+  bottom: 5%;
+  min-width: 150px;
+  left: calc(50% - 75px);
+  z-index: 5;
+  overflow: hidden;
 }
 
 .action-box button {

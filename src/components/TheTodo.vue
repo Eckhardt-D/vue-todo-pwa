@@ -19,29 +19,36 @@
       v-if="!todo.complete && editMode"
       type="text"
     />
-    <v-touch :flex="true" @triggered="showActions = !showActions">
+    <v-touch :flex="true" @triggered="toggleActions">
       <v-icon class="todo-more" icon="ellipsis-h"></v-icon>
     </v-touch>
-    <the-actions-popup
-      :complete="todo.complete"
-      @complete="completeTodo"
-      @reset="resetTodo"
-      @delete="deleteTodo"
-      v-if="showActions"
-      class="popup"
-    />
+    <the-overlay @toggleActions="toggleActions" v-show="showActions">
+      <transition name="fade">
+        <the-actions-popup
+          :complete="todo.complete"
+          @complete="completeTodo"
+          @reset="resetTodo"
+          @delete="deleteTodo"
+          :state="showActions"
+          v-if="showActions"
+          class="popup"
+        />
+      </transition>
+    </the-overlay>
   </section>
 </template>
 
 <script>
 import VTouch from "@/components/VTouch";
 import TheActionsPopup from "@/components/TheActionsPopup";
+import TheOverlay from "@/components/TheOverlay";
 
 export default {
   name: "the-todo",
   components: {
     VTouch,
-    TheActionsPopup
+    TheActionsPopup,
+    TheOverlay
   },
   props: ["todo"],
   data: function() {
@@ -60,10 +67,12 @@ export default {
     completeTodo() {
       const updated = { ...this.todo, complete: true };
       this.$store.commit("UPDATE", updated);
+      this.showActions = false;
     },
     resetTodo() {
       const updated = { ...this.todo, complete: false };
       this.$store.commit("UPDATE", updated);
+      this.showActions = false;
     },
     deleteTodo() {
       this.$store.commit("DELETE", this.todo);
@@ -75,14 +84,23 @@ export default {
       const editedTodo = { ...this.todo, title: this.newTitle };
       this.$store.commit("UPDATE", editedTodo);
       this.editMode = false;
+    },
+    toggleActions() {
+      this.showActions = !this.showActions;
     }
   }
 };
 </script>
 
 <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateY(250px);
+}
 .todo-tab {
-  position: relative;
   height: calc((100vh - (112px + 51px)) / 6);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -99,13 +117,6 @@ export default {
   border-radius: 5px;
   box-shadow: 1.5px 1.5px 5px #a2bdc354;
   border: 0.5px solid rgba(0, 0, 0, 0.1);
-}
-
-.popup {
-  position: absolute;
-  z-index: 2;
-  right: 40px;
-  top: 75%;
 }
 
 .todo-text {

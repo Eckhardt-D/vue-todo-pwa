@@ -4,7 +4,7 @@ import randomID from "uuid/v4";
 const createTodo = async ({ title, complete = false }, store) => {
   const today = new Date();
   const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
+  yesterday.setDate(today.getDate() - 1); // Only for testing previous
 
   const todo = {
     created: today,

@@ -1,6 +1,9 @@
 <template>
   <section class="current-date">
-    <p>{{ new Date().toLocaleDateString("en-US", options) }}</p>
+    <p v-if="!previous">
+      {{ new Date().toLocaleDateString("en-US", options) }}
+    </p>
+    <p v-else>Previously added</p>
   </section>
 </template>
 
@@ -14,7 +17,12 @@ export default {
       month: "long",
       day: "numeric"
     }
-  })
+  }),
+  computed: {
+    previous() {
+      return this.$store.state.mode != "today";
+    }
+  }
 };
 </script>
 

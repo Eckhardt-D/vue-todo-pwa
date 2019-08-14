@@ -1,5 +1,8 @@
 <template>
-  <section class="todo-tab">
+  <section
+    :style="{ 'padding-left': mode != 'today' ? '30px' : '10px' }"
+    class="todo-tab"
+  >
     <v-touch v-if="mode == 'today'" :flex="true" class="drag-handle">
       <v-icon class="todo-sort" icon="bars" />
     </v-touch>

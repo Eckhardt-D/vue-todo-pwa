@@ -22,7 +22,7 @@
     <v-touch :flex="true" @triggered="toggleActions">
       <v-icon class="todo-more" icon="ellipsis-h"></v-icon>
     </v-touch>
-    <the-overlay @toggleActions="toggleActions" v-show="showActions">
+    <the-overlay @toggleActions="toggleActions" v-show="showOverlay">
       <transition name="fade">
         <the-actions-popup
           :complete="todo.complete"
@@ -54,6 +54,7 @@ export default {
   data: function() {
     return {
       showActions: false,
+      showOverlay: false,
       editMode: false,
       newTitle: this.todo.title
     };
@@ -68,10 +69,17 @@ export default {
       const updated = { ...this.todo, complete: true };
       this.$store.commit("UPDATE", updated);
       this.showActions = false;
+
+      setTimeout(() => {
+        this.showOverlay = false;
+      }, 300);
     },
     resetTodo() {
       const updated = { ...this.todo, complete: false };
       this.$store.commit("UPDATE", updated);
+      setTimeout(() => {
+        this.showOverlay = false;
+      }, 300);
       this.showActions = false;
     },
     deleteTodo() {
@@ -86,6 +94,7 @@ export default {
       this.editMode = false;
     },
     toggleActions() {
+      this.showOverlay = !this.showOverlay;
       this.showActions = !this.showActions;
     }
   }
@@ -100,6 +109,11 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   transform: translateY(250px);
 }
+
+.fade-leave-active {
+  transform: translateY(250px);
+}
+
 .todo-tab {
   height: calc((100vh - (112px + 51px)) / 6);
   display: -webkit-box;

@@ -12,9 +12,9 @@ export default {
       const xPos = touch.clientX;
       const yPos = touch.clientY;
       const bottom = window.innerHeight - window.innerHeight * 0.05;
-      const top = bottom - 73;
-      const left = window.innerWidth / 2 - 75;
-      const right = window.innerWidth / 2 + 75;
+      const top = bottom - 100;
+      const left = window.innerWidth / 2 - 125;
+      const right = window.innerWidth / 2 + 125;
       let onButton = false;
 
       if (xPos > left && xPos < right) {

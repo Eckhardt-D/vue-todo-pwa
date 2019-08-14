@@ -23,7 +23,7 @@ export default {
 
 <style>
 .action-box {
-  height: 72px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   background: #ffffff;
@@ -32,8 +32,8 @@ export default {
   border-radius: 10px;
   position: fixed;
   bottom: 5%;
-  min-width: 150px;
-  left: calc(50% - 75px);
+  min-width: 250px;
+  left: calc(50% - 125px);
   z-index: 5;
   overflow: hidden;
 }
@@ -44,6 +44,7 @@ export default {
   width: 100%;
   text-align: center;
   background: #fff;
+  font-size: 1.1em;
 }
 
 .action-box button:first-of-type,

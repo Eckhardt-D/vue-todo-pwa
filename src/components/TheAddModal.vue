@@ -3,7 +3,22 @@
     <div class="create-modal">
       <p class="modal-title">Create a todo</p>
       <input v-model="todoTitle" placeholder="Title" type="text" />
-      <p v-if="isError" class="err-msg"><small>Cannot be empty!</small></p>
+      <div>
+        <input v-model="setReminder" type="checkbox" name="set-reminder" id="set-reminder" />
+        <label style="margin-left: 5px;" for="set-reminder">Set reminder?</label>
+      </div>
+      <div v-if="setReminder" style="width: 100%;">
+        <input
+          v-model="remindOn"
+          style="width: 93%;"
+          type="datetime-local"
+          name="notification-date"
+          id="notification-date"
+        />
+      </div>
+      <p v-if="isError" class="err-msg">
+        <small>Cannot be empty!</small>
+      </p>
       <div class="modal-actions">
         <button @click="createTodo">Save</button>
         <button @click="closeModal">Cancel</button>
@@ -23,21 +38,38 @@ export default {
   },
   data: () => ({
     todoTitle: "",
-    isError: false
+    isError: false,
+    setReminder: false,
+    remindOn: ""
   }),
   methods: {
     createTodo() {
+      if (this.setReminder == true && this.remindOn == "") {
+        this.isError = true;
+        return false;
+      }
+
       if (this.todoTitle == "") {
         this.isError = true;
+        return false;
+      }
+
+      if (this.setReminder && this.remindOn) {
+        this.$store.commit("CREATE", {
+          title: this.todoTitle,
+          at: new Date(this.remindOn)
+        });
       } else {
         this.$store.commit("CREATE", { title: this.todoTitle });
-        this.closeModal();
-        this.$router.push("/");
       }
+
+      this.closeModal();
+      this.$router.push("/");
     },
     closeModal() {
       this.isError = false;
       this.todoTitle = "";
+      this.setReminder = false;
       this.$store.commit("CHANGE_CREATING");
     }
   },
@@ -48,6 +80,12 @@ export default {
       } else {
         document.body.classList.remove("no-scroll");
       }
+    },
+    todoTitle(changed) {
+      this.isError = false;
+    },
+    remindOn(changed) {
+      this.isError = false;
     }
   },
   mounted() {
@@ -69,10 +107,18 @@ export default {
 
 .create-modal input {
   font-size: 1.1em;
-  margin: 16px 0;
   border: 1px solid rgba(0, 0, 0, 0.5);
   padding: 0.5em;
   border-radius: 5px;
+}
+
+.create-modal input[type="text"] {
+  margin: 16px 0;
+}
+
+.create-modal input[type="checkbox"],
+.create-modal input[type="datetime-local"] {
+  margin: 0px 0px 16px 0px;
 }
 
 .modal-title {
